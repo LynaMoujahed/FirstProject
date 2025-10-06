@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Service {{ name }}{% endblock %}
+
+{% block body %}
+    <h1>Service : {{ name }}</h1>
+    <p>
+        <a href="{{ path('app_go_to_index') }}">Aller à la page d'accueil</a>
+    </p>
+{% endblock %}

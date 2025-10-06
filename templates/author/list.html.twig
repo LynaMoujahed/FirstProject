@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des Auteurs</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{{ path('list_authors') }}">Bibliothèque</a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1 class="mb-4">Liste des Auteurs</h1>
+        
+        {% if authors is empty %}
+            <div class="alert alert-warning">
+                Aucun auteur trouvé.
+            </div>
+        {% else %}
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Statistiques</h5>
+                            <p class="card-text">
+                                <strong>Nombre d'auteurs :</strong> 
+                                <span class="badge bg-primary">{{ authors|length }}</span>
+                            </p>
+
+                            {% set total_books = 0 %}
+                            {% for author in authors %}
+                                {% set total_books = total_books + author.nbBooks %}
+                            {% endfor %}
+                            
+                            <p class="card-text">
+                                <strong>Nombre total de livres :</strong> 
+                                <span class="badge bg-success">{{ total_books }}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                {% for author in authors %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <img src="{{ asset(author.picture) }}" 
+                                 class="card-img-top" 
+                                 alt="{{ author.username }}"
+                                 style="height: 250px; object-fit: cover;"
+                                 onerror="this.src='https://via.placeholder.com/300x250?text=Image+Non+Disponible'">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">{{ author.username|upper }}</h5>
+                                <p class="card-text flex-grow-1">
+                                    <strong>Email :</strong> {{ author.email }}<br>
+                                    <strong>Livres :</strong> {{ author.nbBooks }}
+                                </p>
+                                <div class="mt-auto">
+                                    <a href="{{ path('author_details', {'id': author.id}) }}" 
+                                       class="btn btn-info btn-sm me-2">
+                                        📖 Détails
+                                    </a>
+                                    <a href="{{ path('show_author', {'name': author.username}) }}" 
+                                       class="btn btn-outline-secondary btn-sm">
+                                        👤 Profil
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
