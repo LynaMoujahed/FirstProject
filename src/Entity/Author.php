@@ -25,6 +25,22 @@ class Author
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $picture = null;
 
+    #[ORM\ManyToOne(inversedBy: 'authors')]
+    #[ORM\JoinColumn(name: 'classroom_ref', referencedColumnName:'ref')]
+    private ?Classroom $Classroom = null;
+
+    public function __construct(
+        string $username = null,
+        int $nb_books = null,
+        string $email = null,
+        ?string $picture = null
+    ) {
+        $this->username = $username;
+        $this->nb_books = $nb_books;
+        $this->email = $email;
+        $this->picture = $picture;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -38,7 +54,6 @@ class Author
     public function setUsername(string $username): static
     {
         $this->username = $username;
-
         return $this;
     }
 
@@ -50,7 +65,6 @@ class Author
     public function setNbBooks(int $nb_books): static
     {
         $this->nb_books = $nb_books;
-
         return $this;
     }
 
@@ -62,7 +76,6 @@ class Author
     public function setEmail(string $email): static
     {
         $this->email = $email;
-
         return $this;
     }
 
@@ -74,6 +87,17 @@ class Author
     public function setPicture(?string $picture): static
     {
         $this->picture = $picture;
+        return $this;
+    }
+
+    public function getClassroom(): ?Classroom
+    {
+        return $this->Classroom;
+    }
+
+    public function setClassroom(?Classroom $Classroom): static
+    {
+        $this->Classroom = $Classroom;
 
         return $this;
     }
